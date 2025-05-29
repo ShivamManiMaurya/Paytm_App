@@ -12,6 +12,7 @@
     "init:tailwind": "tailwindcss init -p"
   },
   "dependencies": {
+    "@repo/store": "^1.0.0",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.7",
     "next": "^15.3.0",
