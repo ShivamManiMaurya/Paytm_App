@@ -1,17 +1,20 @@
-import { PrismaClient } from "@repo/db/client";
-// import { PrismaClient } from "./../../../../../node_modules/@repo/db/generated/prisma/index.d";
-// import {PrismaClient}
+import prisma from "@repo/db/index";
 import { NextResponse } from "next/server";
 
-const client = new PrismaClient();
 export const GET = async () => {
   try {
-    await client.user.create({
-      data: {
-        email: "abc@gmail.com",
-        name: "some name",
-      },
+    const existingUser = await prisma.user.findUnique({
+      where: { email: "abc@gmail.com" },
     });
+
+    if (!existingUser) {
+      await prisma.user.create({
+        data: {
+          email: "abc@gmail.com",
+          name: "some name",
+        },
+      });
+    }
 
     return NextResponse.json({
       message: "hi there",

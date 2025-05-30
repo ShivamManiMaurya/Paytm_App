@@ -12,6 +12,7 @@
     "init:tailwind": "tailwindcss init -p"
   },
   "dependencies": {
+    "@prisma/client": "^6.8.2",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.7",
     "next": "^15.3.0",
