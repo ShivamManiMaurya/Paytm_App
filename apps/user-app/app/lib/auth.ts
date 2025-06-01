@@ -16,7 +16,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials: any, req: any): Promise<any> {
-        const hashedPassword = await bcrypt.hash(credentials.password, 10);
         const existingUser = await prisma.user.findUnique({
           where: {
             number: credentials.phone,
@@ -28,15 +27,6 @@ export const authOptions: NextAuthOptions = {
         const isValidPassword = await bcrypt.compare(
           credentials.password,
           existingUser.password
-        );
-
-        console.log(
-          "existing = ",
-          existingUser,
-          " isValid = ",
-          isValidPassword,
-          " creds= ",
-          credentials
         );
 
         if (!isValidPassword) return null;
