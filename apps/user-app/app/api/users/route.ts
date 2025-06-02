@@ -41,7 +41,7 @@ export const GET = async () => {
 
   return NextResponse.json(
     {
-      message: "You are logged out.",
+      message: "You are logged out bro.",
     },
     {
       status: 403,

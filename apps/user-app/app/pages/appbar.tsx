@@ -2,9 +2,14 @@
 
 import React from "react";
 import { Appbar } from "../components/appbar";
+import { signOut, signIn, useSession } from "next-auth/react";
 
 const AppbarWrapper = () => {
-  return <Appbar onSignin={() => {}} onSignout={() => {}} />;
+  const session = useSession();
+
+  return (
+    <Appbar user={session?.data?.user} onSignin={signIn} onSignout={signOut} />
+  );
 };
 
 export default AppbarWrapper;
