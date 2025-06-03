@@ -52,3 +52,20 @@ export const signUpFields: Field[] = [
     required: true,
   },
 ];
+
+export const signInFields: Field[] = [
+  {
+    label: "Phone",
+    name: "phone",
+    type: "phone",
+    placeholder: "1234567890",
+    required: true,
+  },
+  {
+    label: "Password",
+    name: "password",
+    type: "password",
+    placeholder: "Create a password",
+    required: true,
+  },
+];

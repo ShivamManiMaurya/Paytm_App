@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@repo/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 interface AppbarProps {
   user?: {
@@ -12,10 +13,25 @@ interface AppbarProps {
 
 export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isSignUp = useMemo(() => {
+    return pathname.includes("/auth/signup");
+  }, [pathname]);
+
+  const isSignIn = useMemo(() => {
+    return pathname.includes("/auth/signin");
+  }, [pathname]);
 
   return (
     <header className="w-full px-6 py-3 border-b bg-white shadow-sm flex justify-between items-center">
-      <div className="text-xl font-bold text-blue-600 select-none">PayTM</div>
+      <div
+        className="text-xl font-bold text-blue-600 select-none cursor-pointer"
+        onClick={() => {
+          router.push("/");
+        }}>
+        PayTM
+      </div>
 
       {user ? (
         <div className="flex items-center space-x-4">
@@ -28,16 +44,20 @@ export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
         </div>
       ) : (
         <div className="flex items-center space-x-3">
-          <Button
-            variant="outlined"
-            onClick={() => {
-              router.push("/auth/signup");
-            }}>
-            Signup
-          </Button>
-          <Button variant="contained" onClick={onSignin}>
-            Login
-          </Button>
+          {!isSignUp && (
+            <Button
+              variant="outlined"
+              onClick={() => {
+                router.push("/auth/signup");
+              }}>
+              Signup
+            </Button>
+          )}
+          {!isSignIn && (
+            <Button variant="contained" onClick={onSignin}>
+              Login
+            </Button>
+          )}
         </div>
       )}
     </header>
