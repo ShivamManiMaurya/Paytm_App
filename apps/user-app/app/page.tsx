@@ -5,6 +5,7 @@ import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useWalletStore } from "@repo/store";
+import LandingPage from "./pages/landingPage";
 
 export default function Home() {
   const [message, setMessage] = useState("");
@@ -19,15 +20,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-red-500 ">
-        Hello world!
-      </h1>
-      <button onClick={callApi}>Call API</button>
-      {message && <p>{message}</p>}
-      <div>
-        <h2>Balance: ₹{balance}</h2>
-        <button onClick={() => updateBalance(balance + 100)}>Add ₹100</button>
-      </div>
+      <LandingPage />
     </>
   );
 }

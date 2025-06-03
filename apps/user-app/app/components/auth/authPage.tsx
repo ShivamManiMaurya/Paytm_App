@@ -30,7 +30,7 @@ const AuthPage: React.FC<IProps> = ({ isSingup }) => {
           key={field.name + index}
           type={field.type}
           placeholder={field.placeholder}
-          value={formData[field.name as keyof typeof formData]}
+          value={formData[field.name as keyof typeof formData] ?? ""}
           onChange={handleChange}
           className="w-full p-3 mb-4 border rounded"
           required={field.required}
