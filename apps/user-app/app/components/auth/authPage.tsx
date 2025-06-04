@@ -16,9 +16,29 @@ interface IProps {
 }
 
 const AuthPage: React.FC<IProps> = ({ isSingup }) => {
-  const [formData, setFormData] = useState<StateFields>(initialValues);
+  const [formData, setFormData] =
+    useState<Record<string, string>>(initialValues);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (isSingup) {
+      console.log("signup");
+    } else {
+      const res = await signIn("credentials", {
+        redirect: false,
+        phone: formData.phone,
+        password: formData.password,
+        callbackUrl: "/",
+      });
+
+      if (res?.ok) {
+        window.location.href = res.url || "/";
+      } else {
+        alert("Invalid creds");
+      }
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();

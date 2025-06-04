@@ -1,7 +1,8 @@
+import { Message } from "./../../../../../node_modules/esbuild/lib/main.d";
 import bcrypt from "bcrypt";
-import prisma from "@repo/db/index";
+import db from "@repo/db/index";
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../lib/auth";
 
 // export const GET = async () => {
@@ -47,4 +48,61 @@ export const GET = async () => {
       status: 403,
     }
   );
+};
+
+export const POST = async (req: NextRequest) => {
+  try {
+    const user = await req.json();
+    const { email, number, password } = user;
+
+    if (!email || !number || !password) {
+      return NextResponse.json(
+        {
+          error: "Params missing.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const [userEmail, userPhone] = await Promise.all([
+      db.user.findUnique({ where: email }),
+      db.user.findUnique({ where: number }),
+    ]);
+
+    if (userEmail && userPhone) {
+      return NextResponse.json(
+        {
+          error: "Email and phone number already exist!",
+        },
+        { status: 409 }
+      );
+    } else if (userEmail) {
+      return NextResponse.json({
+        error: "Email already exist!",
+      });
+    } else if (userPhone) {
+      return NextResponse.json({
+        error: "Phone number already exist!",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await db.user.create({
+      data: {
+        ...user,
+        password: hashedPassword,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "User added successfully.",
+        userId: newUser.id,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
 };
