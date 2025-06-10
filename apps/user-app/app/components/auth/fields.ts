@@ -51,6 +51,7 @@ export const initialFormState: TFormField = {
   errors: {},
 };
 
+export type TPassword = "password" | "confirmPassword";
 // export const initialValues = {
 //   label: "",
 //   name: "",

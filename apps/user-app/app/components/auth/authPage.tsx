@@ -7,12 +7,12 @@ import {
   signUpFields,
   TFormField,
 } from "./fields";
-import { signOut, signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { validateField } from "./helpers";
 import { toast } from "react-toastify";
-import { userSignUp } from "../../actions/signUp";
 import Loader from "../common/Loader";
+import Input from "./Input";
 
 interface IProps {
   isSignup: boolean;
@@ -162,32 +162,13 @@ const AuthPage: React.FC<IProps> = ({ isSignup }) => {
         {isSignup ? "Sign Up" : "Sign In"}
       </h2>
       {fields.map((field, index) => (
-        <div key={field.name + index} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold ">
-            {field.label}
-            {field.required && <span className="text-red-500">*</span>}
-          </label>
-          <input
-            type={field.type}
-            placeholder={field.placeholder}
-            value={formData.values[field.name] ?? ""}
-            onChange={handleChange}
-            onBlur={() => handleBlur(field.name)}
-            className={`w-full p-2 border rounded ${
-              formData.touched[field.name] && formData.errors[field.name]
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-            required={field.required}
-            name={field.name}
-            inputMode={field.inputMode}
-          />
-          {formData.touched[field.name] && formData.errors[field.name] && (
-            <p className="text-red-500 text-xs mt-1">
-              {formData.errors[field.name]}
-            </p>
-          )}
-        </div>
+        <Input
+          key={field.name + index}
+          field={field}
+          formData={formData}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+        />
       ))}
       <button
         type="submit"
