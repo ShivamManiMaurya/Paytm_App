@@ -6,7 +6,7 @@ const SignUpPage = () => {
     <div
       className=" flex justify-center items-center w-full h-screen "
       style={{ height: "calc(100vh - 62px)" }}>
-      <AuthPage isSingup={true} />
+      <AuthPage isSignup={true} />
     </div>
   );
 };

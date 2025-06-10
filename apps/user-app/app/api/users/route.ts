@@ -65,8 +65,8 @@ export const POST = async (req: NextRequest) => {
     }
 
     const [userEmail, userPhone] = await Promise.all([
-      db.user.findUnique({ where: email }),
-      db.user.findUnique({ where: number }),
+      db.user.findUnique({ where: { email } }),
+      db.user.findUnique({ where: { number } }),
     ]);
 
     if (userEmail && userPhone) {
@@ -77,13 +77,19 @@ export const POST = async (req: NextRequest) => {
         { status: 409 }
       );
     } else if (userEmail) {
-      return NextResponse.json({
-        error: "Email already exist!",
-      });
+      return NextResponse.json(
+        {
+          error: "Email already exist!",
+        },
+        { status: 409 }
+      );
     } else if (userPhone) {
-      return NextResponse.json({
-        error: "Phone number already exist!",
-      });
+      return NextResponse.json(
+        {
+          error: "Phone number already exist!",
+        },
+        { status: 409 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

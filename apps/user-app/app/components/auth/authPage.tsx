@@ -2,52 +2,156 @@
 
 import React, { useMemo, useState } from "react";
 import {
-  Field,
-  initialValues,
+  initialFormState,
   signInFields,
   signUpFields,
-  StateFields,
+  TFormField,
 } from "./fields";
 import { signOut, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { validateField } from "./helpers";
+import { toast } from "react-toastify";
+import { userSignUp } from "../../actions/signUp";
+import Loader from "../common/Loader";
 
 interface IProps {
-  isSingup: boolean;
+  isSignup: boolean;
 }
 
-const AuthPage: React.FC<IProps> = ({ isSingup }) => {
-  const [formData, setFormData] =
-    useState<Record<string, string>>(initialValues);
+const AuthPage: React.FC<IProps> = ({ isSignup }) => {
+  const [formData, setFormData] = useState<TFormField>(initialFormState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    if (isSingup) {
-      console.log("signup");
-    } else {
-      const res = await signIn("credentials", {
-        redirect: false,
-        phone: formData.phone,
-        password: formData.password,
-        callbackUrl: "/",
-      });
+    // Validate all fields
+    const newErrors: Record<string, string> = {};
+    fields.forEach((field) => {
+      newErrors[field.name] = validateField(
+        field.name,
+        formData.values[field.name] || "",
+        formData.values,
+        fields
+      );
+    });
 
-      if (res?.ok) {
-        window.location.href = res.url || "/";
+    setFormData((prev) => ({
+      ...prev,
+      errors: newErrors,
+      touched: fields.reduce(
+        (acc, field) => ({ ...acc, [field.name]: true }),
+        {}
+      ),
+    }));
+
+    // Check if form is valid
+    const isValid = Object.values(newErrors).every((error) => !error);
+    if (!isValid) {
+      toast.error("Please enter a valid value.");
+      setIsLoading(false);
+      return;
+    }
+
+    // Proceed with signup/login
+    try {
+      if (isSignup) {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: formData.values.name,
+                email: formData.values.email,
+                number: formData.values.phone,
+                password: formData.values.password,
+              }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Signup failed");
+          }
+
+          toast.success(data.message);
+          window.location.href = "/auth/signin";
+        } catch (error: any) {
+          toast.error(error.message);
+        }
       } else {
-        alert("Invalid creds");
+        const res = await signIn("credentials", {
+          redirect: false,
+          phone: formData.values.phone,
+          password: formData.values.password,
+          callbackUrl: "/",
+        });
+
+        if (res?.ok) {
+          window.location.href = res.url || "/";
+        } else {
+          toast.error("Invalid creds");
+        }
       }
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    const newValues = { ...formData.values, [name]: value };
+
+    if (name === "password") {
+      const confirmPasswordError = validateField(
+        "confirmPassword",
+        newValues.confirmPassword || "",
+        newValues,
+        fields
+      );
+
+      setFormData((prev) => ({
+        ...prev,
+        values: newValues,
+        errors: {
+          ...prev.errors,
+          [name]: validateField(name, value, newValues, fields),
+          confirmPassword: confirmPasswordError,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        values: newValues,
+        errors: {
+          ...prev.errors,
+          [name]: validateField(name, value, newValues, fields),
+        },
+      }));
+    }
+  };
+
+  const handleBlur = (name: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      touched: {
+        ...prev.touched,
+        [name]: true,
+      },
+    }));
   };
 
   const fields = useMemo(() => {
-    return isSingup ? signUpFields : signInFields;
+    return isSignup ? signUpFields : signInFields;
   }, [signUpFields, signInFields]);
 
   return (
@@ -55,31 +159,55 @@ const AuthPage: React.FC<IProps> = ({ isSingup }) => {
       onSubmit={handleSubmit}
       className="bg-white p-8 rounded shadow-md w-full max-w-md">
       <h2 className="text-2xl font-bold mb-6 text-center">
-        {isSingup ? "Sign Up" : "Sign In"}
+        {isSignup ? "Sign Up" : "Sign In"}
       </h2>
       {fields.map((field, index) => (
-        <input
-          key={field.name + index}
-          type={field.type}
-          placeholder={field.placeholder}
-          value={formData[field.name as keyof typeof formData] ?? ""}
-          onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded"
-          required={field.required}
-          name={field.name}
-        />
+        <div key={field.name + index} className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold ">
+            {field.label}
+            {field.required && <span className="text-red-500">*</span>}
+          </label>
+          <input
+            type={field.type}
+            placeholder={field.placeholder}
+            value={formData.values[field.name] ?? ""}
+            onChange={handleChange}
+            onBlur={() => handleBlur(field.name)}
+            className={`w-full p-2 border rounded ${
+              formData.touched[field.name] && formData.errors[field.name]
+                ? "border-red-500"
+                : "border-gray-300"
+            }`}
+            required={field.required}
+            name={field.name}
+            inputMode={field.inputMode}
+          />
+          {formData.touched[field.name] && formData.errors[field.name] && (
+            <p className="text-red-500 text-xs mt-1">
+              {formData.errors[field.name]}
+            </p>
+          )}
+        </div>
       ))}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-        {isSingup ? "Sign Up" : "Sign In"}
+        className={`w-full ${isLoading ? "bg-gray-400" : "bg-blue-600"} cursor-pointer ${isLoading ? "text-blue-600" : "text-white"} py-2 rounded hover:opacity-95 flex justify-center items-center`}
+        disabled={isLoading}>
+        {isLoading && <Loader />}
+        {isSignup
+          ? isLoading
+            ? "Signing Up..."
+            : "Sign Up"
+          : isLoading
+            ? "Signing In..."
+            : "Sign In"}
       </button>
       <p className="mt-4 text-center text-sm">
-        {isSingup ? "Already have an account?" : "Don't have an account?"}{" "}
+        {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
         <Link
-          href={isSingup ? "/auth/signin" : "/auth/signup"}
+          href={isSignup ? "/auth/signin" : "/auth/signup"}
           className="text-blue-600 hover:underline">
-          {isSingup ? "Sign In" : "Sign Up"}
+          {isSignup ? "Sign In" : "Sign Up"}
         </Link>
       </p>
     </form>
