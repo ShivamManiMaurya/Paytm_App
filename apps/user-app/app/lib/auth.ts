@@ -2,6 +2,7 @@ import { prisma } from "@repo/db/index";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
+import { signOut } from "next-auth/react";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -51,5 +52,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/signin",
+    signOut: "/",
   },
 };

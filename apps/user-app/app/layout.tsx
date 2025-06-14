@@ -29,9 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <Provider>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <Appbar />
           <ToastProvider />
-          {children}
+          <Appbar />
+          <div className="h-[calc(100vh-4rem)]">{children}</div>
         </body>
       </Provider>
     </html>

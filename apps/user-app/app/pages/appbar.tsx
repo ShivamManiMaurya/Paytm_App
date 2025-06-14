@@ -8,7 +8,11 @@ const AppbarWrapper = () => {
   const session = useSession();
 
   return (
-    <Appbar user={session?.data?.user} onSignin={signIn} onSignout={signOut} />
+    <Appbar
+      user={session?.data?.user}
+      onSignin={signIn}
+      onSignout={() => signOut({ callbackUrl: "/" })}
+    />
   );
 };
 
