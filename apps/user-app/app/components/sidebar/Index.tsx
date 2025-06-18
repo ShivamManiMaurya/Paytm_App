@@ -11,11 +11,12 @@ const Index = () => {
   const lastSegment = segments[segments.length - 1];
 
   const handleClick = (route: ERoute) => {
-    router.push(route);
+    router.replace(route);
   };
 
   return (
-    <div className="w-[12%] h-lvh border-r border-gray-200 bg-white shadow-md flex flex-col items-center py-6 space-y-4">
+    <div
+      className={`lg:w-[15%] w-[7%] h-lvh border-r border-gray-200 bg-white shadow-md flex flex-col items-center py-6 space-y-4`}>
       {sidebarItems.map((item, index) => (
         <button
           key={item.label + index}
@@ -26,7 +27,9 @@ const Index = () => {
           <span className="text-xl">
             <item.icon />
           </span>
-          <span className="text-sm font-medium">{item.label}</span>
+          <span className="text-sm font-medium hidden lg:inline">
+            {item.label}
+          </span>
         </button>
       ))}
     </div>

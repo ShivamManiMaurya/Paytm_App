@@ -104,7 +104,10 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(
       {
         message: "User added successfully.",
-        userId: newUser.id,
+        user: {
+          ...newUser,
+          id: newUser.id,
+        },
       },
       { status: 201 }
     );

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/bundle.js",
+    "watch": "esbuild src/index.ts --bundle --platform=node --outfile=dist/bundle.js --watch",
+    "start": "node dist/bundle.js",
+    "dev": "concurrently \"npm:watch\" \"npm:start\""
   },
   "keywords": [],
   "author": "",
@@ -13,7 +16,11 @@
   "dependencies": {
     "@repo/db": "*",
     "@types/express": "^5.0.2",
-    "esbuild": "^0.25.5",
+    "dotenv": "^16.0.3",
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.5"
   }
 }

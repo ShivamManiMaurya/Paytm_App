@@ -15,8 +15,7 @@ export default function LandingPage() {
         Fast, secure, and easy payments. Manage your money anytime, anywhere.
       </p>
       {session?.data?.user && (
-        <button
-          onClick={() => (window.location.href = "/pages/dashboard/home")}>
+        <button onClick={() => (window.location.href = "/pages/home")}>
           Get Started
         </button>
       )}

@@ -2,7 +2,17 @@ import { prisma } from "@repo/db/index";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
-import { signOut } from "next-auth/react";
+
+// Define extended session type locally
+interface ExtendedSession {
+  user: {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  expires: string;
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -33,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         if (!isValidPassword) return null;
 
         return {
-          id: existingUser.id,
+          id: existingUser.id.toString(),
           name: existingUser.name,
           email: existingUser.email,
         };
@@ -42,9 +52,23 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.JWT_SECRET || "Secret",
   callbacks: {
-    async session({ session, token }: any) {
-      session.user.id = token.sub;
-      return session;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }): Promise<ExtendedSession> {
+      // Use token.id if available, otherwise fall back to token.sub
+      const userId = token.id || token.sub;
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: userId as string,
+        },
+      };
     },
     async signIn({ user, account, profile, email, credentials }) {
       return true;
