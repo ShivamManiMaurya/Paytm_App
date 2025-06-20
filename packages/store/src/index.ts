@@ -9,3 +9,5 @@ export const useWalletStore = create<WalletStore>((set) => ({
   balance: 0,
   updateBalance: (amount) => set({ balance: amount }),
 }));
+
+export * from "./sidebarLoadingStore";

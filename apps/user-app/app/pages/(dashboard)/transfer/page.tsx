@@ -1,10 +1,18 @@
+"use client";
+
 import React from "react";
 import { AddMoneyForm } from "../../../components/transaction/AddMoneyForm";
 import { BalanceSummary } from "../../../components/transaction/BalanceSummary";
 import { RecentTransactions } from "../../../components/transaction/RecentTransaction";
+import { useSidebarLoadingStore } from "@repo/store";
+import Skeleton from "../../../components/transaction/Skeleton";
 
 const TransferPage = () => {
-  return (
+  const isLoading = useSidebarLoadingStore((state) => state.loading);
+
+  return isLoading ? (
+    <Skeleton />
+  ) : (
     <div className="h-[calc(100vh-4rem)] w-full bg-gray-100 p-8">
       <h1 className="text-2xl font-bold text-purple-600 mb-6">Transfer</h1>
 

@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import Provider from "./lib/SessionProvider";
 import Appbar from "./pages/appbar";
 import ToastProvider from "./lib/ToastProvider";
+import setupLocatorUI from "@locator/runtime";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,15 +26,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (process.env.NODE_ENV === "development") {
+    setupLocatorUI();
+  }
   return (
-    <html lang="en">
-      <Provider>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className="h-full">
+      <body className="h-full flex flex-col">
+        <Provider>
           <ToastProvider />
-          <Appbar />
-          <div className="h-[calc(100vh-4rem)]">{children}</div>
-        </body>
-      </Provider>
+          <Appbar /> {/* height-16 or fixed */}
+          <main className="flex-1 overflow-y-auto bg-gray-100">{children}</main>
+        </Provider>
+      </body>
     </html>
   );
 }

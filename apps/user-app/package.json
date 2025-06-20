@@ -20,6 +20,7 @@
     "bcrypt": "^6.0.0",
     "clex": "^0.0.4",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.517.0",
     "next": "^15.3.0",
     "next-auth": "^4.24.11",
     "react": "^19.1.0",
@@ -29,6 +30,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@locator/babel-jsx": "^0.4.4",
+    "@locator/runtime": "^0.4.4",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/bcrypt": "^5.0.2",
