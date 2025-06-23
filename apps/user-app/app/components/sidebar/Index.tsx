@@ -1,12 +1,13 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { sidebarItems } from "./fieldsAndTypes";
 import { useSidebarLoadingStore } from "@repo/store";
+import NProgress from "nprogress";
+import "../../lib/styles/nprogress.css";
+import { useEffect } from "react";
 
 export default function Sidebar() {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const lastSegment = pathname.split("/").filter(Boolean).pop();
   const { isLoading, setLoading } = useSidebarLoadingStore((state) => ({
@@ -19,16 +20,22 @@ export default function Sidebar() {
   };
 
   const handleNavigate = (path: string) => {
-    setLoading(true);
-    startTransition(() => {
-      router.push(path);
-      setLoading(false);
-    });
+    NProgress.start();
+    setLoading(true, path);
+    router.push(path);
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      NProgress.start();
+    } else {
+      NProgress.done();
+    }
+  }, [isLoading]);
 
   return (
     <aside>
-      {(isLoading || isPending) && (
+      {isLoading && (
         <div className="fixed top-0 left-0 w-full h-1 bg-blue-500 animate-pulse z-50" />
       )}
       <nav className="lg:w-[100%] h-[calc(100vh-7.7vh)] px-6 border-r border-gray-200 bg-white shadow-md flex flex-col items-center py-6 space-y-4">

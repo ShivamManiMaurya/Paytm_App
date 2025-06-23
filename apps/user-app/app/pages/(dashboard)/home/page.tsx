@@ -4,11 +4,12 @@ import React from "react";
 import Home from "../../../components/home/Home";
 import { useSidebarLoadingStore } from "@repo/store";
 import HomeSkeleton from "../../../components/home/HomeSkeleton";
+import Loader from "../../../components/common/PrimaryLoader";
 
 const homePage = () => {
-  const isLoading = useSidebarLoadingStore((state) => state.loading);
+  const { loading } = useSidebarLoadingStore();
 
-  return isLoading ? <HomeSkeleton /> : <Home />;
+  return loading ? <Loader /> : <Home />;
 };
 
 export default homePage;

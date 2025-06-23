@@ -2,10 +2,13 @@ import { create } from "zustand";
 
 type TLoadingState = {
   loading: boolean;
-  setLoading: (val: boolean) => void;
+  targetRoute: string | null;
+  setLoading: (val: boolean, route?: string | null) => void;
 };
 
 export const useSidebarLoadingStore = create<TLoadingState>((set) => ({
   loading: false,
-  setLoading: (val) => set({ loading: val }),
+  targetRoute: null,
+  setLoading: (val, route = null) =>
+    set({ loading: val, targetRoute: val ? route : null }),
 }));

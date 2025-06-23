@@ -22,3 +22,9 @@ export type ActionResponse = {
   status: number;
   data?: any;
 };
+
+export enum OnRampStatus {
+  Success = "Success",
+  Failure = "Failure",
+  Processing = "Processing",
+}

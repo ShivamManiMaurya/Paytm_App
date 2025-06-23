@@ -1,35 +1,47 @@
-"use client";
-
 import React from "react";
-import { AddMoneyForm } from "../../../components/transaction/AddMoneyForm";
-import { BalanceSummary } from "../../../components/transaction/BalanceSummary";
-import { RecentTransactions } from "../../../components/transaction/RecentTransaction";
-import { useSidebarLoadingStore } from "@repo/store";
-import Skeleton from "../../../components/transaction/Skeleton";
+import TransferPage from "../../../components/transfer/Index";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/auth";
+import prisma from "@repo/db/index";
+import { ExtendedSession } from "../../../lib/types/types";
+import { tranferShapes } from "../../../lib/types/transferShapes";
 
-const TransferPage = () => {
-  const isLoading = useSidebarLoadingStore((state) => state.loading);
+const getBalance = async () => {
+  const session = (await getServerSession(authOptions)) as ExtendedSession;
+  const balance = await prisma.balance.findUnique({
+    where: {
+      userId: Number(session?.user?.id),
+    },
+  });
 
-  return isLoading ? (
-    <Skeleton />
-  ) : (
-    <div className="h-[calc(100vh-4rem)] w-full bg-gray-100 p-8">
-      <h1 className="text-2xl font-bold text-purple-600 mb-6">Transfer</h1>
-
-      <div className="flex gap-6">
-        {/* Left: Add Money Form */}
-        <div className="w-1/2">
-          <AddMoneyForm />
-        </div>
-
-        {/* Right: Balance + Transactions */}
-        <div className="w-1/2 space-y-4">
-          <BalanceSummary />
-          <RecentTransactions />
-        </div>
-      </div>
-    </div>
-  );
+  return {
+    amount: balance?.amount || 0,
+    locked: balance?.locked || 0,
+  } as tranferShapes.TBalance;
 };
 
-export default TransferPage;
+const getOnRampTransactions = async () => {
+  const session = (await getServerSession(authOptions)) as ExtendedSession;
+  const transactions = await prisma.onRampTransaction.findMany({
+    where: {
+      userId: Number(session.user.id),
+    },
+  });
+
+  return transactions.map((tx) => ({
+    id: tx.id,
+    amount: tx.amount,
+    status: tx.status,
+    startTime: tx.startTime,
+    provider: tx.provider,
+  })) as tranferShapes.TTxn[];
+};
+
+const Transfer = async () => {
+  const balance = await getBalance();
+  const transactions = await getOnRampTransactions();
+
+  return <TransferPage balance={balance} transactions={transactions} />;
+};
+
+export default Transfer;
