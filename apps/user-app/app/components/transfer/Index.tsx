@@ -31,7 +31,7 @@ const TransferPage: React.FC<IProps> = ({ balance, transactions }) => {
 
         {/* Right: Balance + Transactions */}
         <div className="w-1/2 space-y-4">
-          <BalanceSummary />
+          <BalanceSummary balance={balance} />
           <RecentTransactions transactions={transactions} />
         </div>
       </div>

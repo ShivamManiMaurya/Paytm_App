@@ -6,15 +6,19 @@ import clsx from "clsx";
 interface ButtonProps {
   children: ReactNode;
   onClick: () => void;
+  disable?: boolean;
   variant?: "text" | "contained" | "outlined";
   color?: "primary" | "secondary";
+  styles?: string;
 }
 
 export const Button = ({
   onClick,
   children,
+  disable = false,
   variant = "text",
   color = "primary",
+  styles,
 }: ButtonProps) => {
   const baseStyles =
     "font-medium rounded-lg text-sm px-4 py-2 rounded-md focus:outline-none focus:ring-2 transition duration-200 ease-in-out";
@@ -38,6 +42,7 @@ export const Button = ({
     <button
       onClick={onClick}
       type="button"
+      disabled={disable}
       style={{ cursor: "pointer" }} // ensure pointer cursor
       className={clsx(
         baseStyles,
@@ -45,7 +50,8 @@ export const Button = ({
         "hover:opacity-90", // opacity down on hover
         "active:opacity-75", // more opacity on click hold
         "active:scale-95", // scale down on click hold
-        "hover:shadow-md" // subtle shadow on hover
+        "hover:shadow-md", // subtle shadow on hover
+        styles
       )}>
       {children}
     </button>

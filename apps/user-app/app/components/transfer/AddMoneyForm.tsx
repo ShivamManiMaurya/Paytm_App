@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { Button } from "@repo/ui/button";
 import { createOnRampTransaction } from "../../lib/actions/createOnRampTransaction";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import PrimaryLoader from "../common/PrimaryLoader";
+import Loader from "../common/Loader";
 
 const SUPPORTED_BANKS = [
   {
@@ -16,11 +19,14 @@ const SUPPORTED_BANKS = [
 ];
 
 export const AddMoneyForm = () => {
+  const router = useRouter();
+
   const [redirectUrl, setRedirectUrl] = useState(
     SUPPORTED_BANKS[0]?.redirectUrl
   );
   const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
   const [value, setValue] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleBankChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedName = e.target.value;
@@ -30,14 +36,19 @@ export const AddMoneyForm = () => {
   };
 
   const handleAddMoney = async () => {
+    setLoading(true);
     const response = await createOnRampTransaction(provider, value);
     // window.location.href = redirectUrl || "";
 
     if (response.status >= 200 && response.status <= 210) {
       toast.success(response.message ?? "Transaction successfull.");
+
+      router.refresh();
     } else {
       toast.error(response.message + " status: " + response.status);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -68,8 +79,12 @@ export const AddMoneyForm = () => {
         </select>
       </div>
 
-      <Button variant="contained" onClick={handleAddMoney}>
-        Add Money
+      <Button
+        variant="contained"
+        onClick={handleAddMoney}
+        styles={`w-full ${loading ? "bg-gray-400" : "bg-blue-600"}`}
+        disable={loading}>
+        {loading ? <Loader /> : "Add Money"}
       </Button>
     </div>
   );
