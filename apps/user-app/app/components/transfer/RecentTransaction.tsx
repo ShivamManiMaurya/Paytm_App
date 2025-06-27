@@ -14,7 +14,7 @@ interface IProps {
   transactions: tranferShapes.TTxn[];
 }
 
-const getStatusStyles = (status: OnRampStatus) => {
+export const getStatusStyles = (status: OnRampStatus) => {
   switch (status) {
     case OnRampStatus.Success:
       return {
