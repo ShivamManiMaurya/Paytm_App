@@ -50,6 +50,7 @@ export default function Sidebar() {
                       w-[100%] flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors 
                       text-gray-700 cursor-pointer sidebar-link gap-2 my-2 break-normal whitespace-nowrap`}
                   type="button"
+                  disabled={item.route === lastSegment}
                   onClick={() => handleNavigate(path)}
                   onMouseEnter={() => handlePrefetch(path)}>
                   <item.icon />

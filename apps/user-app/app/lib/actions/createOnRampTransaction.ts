@@ -17,8 +17,6 @@ export async function createOnRampTransaction(
       authOptions
     )) as ExtendedSession | null;
 
-    console.log("session = ", session);
-
     // FIXED: Make this response consistent with others
     if (!session?.user || !session.user.id) {
       return {

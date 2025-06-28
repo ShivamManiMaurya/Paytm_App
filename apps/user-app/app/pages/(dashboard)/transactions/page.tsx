@@ -9,8 +9,6 @@ const Transactions = async () => {
   const transactions = await getOnRampTransactions();
   const p2pTransactions = await getP2PTransactions();
 
-  console.log("p2p = ", p2pTransactions, " txns = ", transactions);
-
   return (
     <TransactionsPage
       transactions={transactions}

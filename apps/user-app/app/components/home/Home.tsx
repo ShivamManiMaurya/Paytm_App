@@ -16,13 +16,9 @@ interface IProps {
 export default function Home({ balance, allTransactions }: IProps) {
   const [filter, setFilter] = useState<EFilters>(EFilters.ALL);
 
-  console.log("balance = ", balance);
-
   const filterTransactions = useMemo(() => {
     return filterFn(filter, allTransactions);
   }, [allTransactions, filter]);
-
-  console.log("filter = ", filterTransactions);
 
   return (
     <main className="h-[calc(100vh-7.7vh)] w-[100%] bg-gray-100 p-4 sm:p-6 md:p-8">

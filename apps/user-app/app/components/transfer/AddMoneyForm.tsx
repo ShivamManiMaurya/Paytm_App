@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button } from "@repo/ui/button";
 import { createOnRampTransaction } from "../../lib/actions/createOnRampTransaction";
 import { toast } from "react-toastify";
@@ -24,7 +24,7 @@ export const AddMoneyForm = () => {
   const [redirectUrl, setRedirectUrl] = useState(
     SUPPORTED_BANKS[0]?.redirectUrl
   );
-  const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
+  const [provider, setProvider] = useState("");
   const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -50,6 +50,10 @@ export const AddMoneyForm = () => {
 
     setLoading(false);
   };
+
+  const isDisabled = useMemo(() => {
+    return loading || provider === "" || value === 0;
+  }, [loading, provider, value]);
 
   return (
     <div className="w-full bg-white rounded-xl shadow p-6 space-y-4">
@@ -82,8 +86,8 @@ export const AddMoneyForm = () => {
       <Button
         variant="contained"
         onClick={handleAddMoney}
-        styles={`w-full ${loading ? "bg-gray-400" : "bg-blue-600"}`}
-        disable={loading}>
+        styles={`w-full ${isDisabled ? "bg-gray-400" : "bg-blue-600"}`}
+        disable={isDisabled}>
         {loading ? <Loader /> : "Add Money"}
       </Button>
     </div>
