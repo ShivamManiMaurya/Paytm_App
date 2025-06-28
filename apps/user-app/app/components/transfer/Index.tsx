@@ -21,7 +21,12 @@ const TransferPage: React.FC<IProps> = ({ balance, transactions }) => {
     <PrimaryLoader />
   ) : (
     <div className="h-[calc(100vh-4rem)] w-full bg-gray-100 p-8">
-      <h1 className="text-2xl font-bold text-purple-600 mb-6">Transfer</h1>
+      <div className=" flex justify-start items-baseline gap-2 m-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+          Transfer
+        </h1>
+        <p className="text-gray-500 mt-1 text-sm">Add money to your wallet.</p>
+      </div>
 
       <div className="flex gap-6">
         {/* Left: Add Money Form */}

@@ -1,19 +1,23 @@
 "use client";
 
 import React, { useMemo } from "react";
-import TransactionsPage from "./Transactions";
+import Home from "./Home";
 import { useSidebarLoadingStore } from "@repo/store";
-import PrimaryLoader from "../common/PrimaryLoader";
+import Loader from "../common/PrimaryLoader";
 import { tranferShapes } from "../../lib/types/transferShapes";
-import moment from "moment";
 import getAllTransactions from "../../lib/helpers/getAllTransactions";
 
 interface IProps {
+  balance: tranferShapes.TBalance;
   transactions: tranferShapes.TTxn[];
   p2pTransactions: tranferShapes.TP2pTxns[];
 }
 
-const Transactions: React.FC<IProps> = ({ transactions, p2pTransactions }) => {
+const homePage: React.FC<IProps> = ({
+  balance,
+  transactions,
+  p2pTransactions,
+}) => {
   const { loading } = useSidebarLoadingStore();
 
   const allTransactions = useMemo(() => {
@@ -21,10 +25,10 @@ const Transactions: React.FC<IProps> = ({ transactions, p2pTransactions }) => {
   }, [transactions, p2pTransactions]);
 
   return loading ? (
-    <PrimaryLoader />
+    <Loader />
   ) : (
-    <TransactionsPage allTransactions={allTransactions} />
+    <Home balance={balance} allTransactions={allTransactions} />
   );
 };
 
-export default Transactions;
+export default homePage;

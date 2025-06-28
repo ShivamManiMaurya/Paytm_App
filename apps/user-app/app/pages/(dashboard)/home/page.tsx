@@ -1,15 +1,23 @@
-"use client";
-
 import React from "react";
-import Home from "../../../components/home/Home";
-import { useSidebarLoadingStore } from "@repo/store";
-import HomeSkeleton from "../../../components/home/HomeSkeleton";
-import Loader from "../../../components/common/PrimaryLoader";
+import Home from "../../../components/home/Index";
+import {
+  getBalance,
+  getOnRampTransactions,
+  getP2PTransactions,
+} from "../../../lib/data/transferData";
 
-const homePage = () => {
-  const { loading } = useSidebarLoadingStore();
+const homePage = async () => {
+  const balance = await getBalance();
+  const transactions = await getOnRampTransactions();
+  const p2pTransactions = await getP2PTransactions();
 
-  return loading ? <Loader /> : <Home />;
+  return (
+    <Home
+      balance={balance}
+      transactions={transactions}
+      p2pTransactions={p2pTransactions.data}
+    />
+  );
 };
 
 export default homePage;

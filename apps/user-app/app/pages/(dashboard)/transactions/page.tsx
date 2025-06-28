@@ -1,9 +1,5 @@
 import React from "react";
 import TransactionsPage from "../../../components/transactions/Index";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth";
-import prisma from "@repo/db/index";
-import { ExtendedSession } from "../../../lib/types/types";
 import {
   getOnRampTransactions,
   getP2PTransactions,

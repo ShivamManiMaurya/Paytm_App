@@ -28,3 +28,10 @@ export enum OnRampStatus {
   Failure = "Failure",
   Processing = "Processing",
 }
+
+export enum EFilters {
+  SEND = "Send",
+  RECEIVE = "Receive",
+  ADD = "Add",
+  ALL = "All",
+}
