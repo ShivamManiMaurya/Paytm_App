@@ -46,4 +46,9 @@ export declare namespace tranferShapes {
   type TCombinedTP2P = TP2pTxns & TExtended;
 
   type allTransactions = (TCombinedTxn | TCombinedTP2P)[];
+
+  type TAutoWebhook = {
+    id: number;
+    isAutoWebhook: boolean;
+  };
 }

@@ -22,6 +22,20 @@ export const getBalance = async () => {
   } as tranferShapes.TBalance;
 };
 
+export const getAutoWebhook = async () => {
+  const session = await getSession();
+  const autoWebhook = await prisma.userAutoWebhook.findUnique({
+    where: {
+      userId: Some.Number(session?.user?.id),
+    },
+  });
+
+  return {
+    id: autoWebhook?.id,
+    isAutoWebhook: autoWebhook?.isAutoWebhook,
+  } as tranferShapes.TAutoWebhook;
+};
+
 export const getOnRampTransactions = async () => {
   const session = await getSession();
   const transactions = await prisma.onRampTransaction.findMany({
@@ -33,6 +47,8 @@ export const getOnRampTransactions = async () => {
     status: tx.status,
     startTime: tx.startTime,
     provider: tx.provider,
+    token: tx.token,
+    userId: tx.userId,
   })) as tranferShapes.TTxn[];
 };
 

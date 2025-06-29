@@ -6,6 +6,7 @@ import prisma from "@repo/db/index";
 import { ExtendedSession } from "../../../lib/types/types";
 import { tranferShapes } from "../../../lib/types/transferShapes";
 import {
+  getAutoWebhook,
   getBalance,
   getOnRampTransactions,
 } from "../../../lib/data/transferData";
@@ -13,8 +14,15 @@ import {
 const Transfer = async () => {
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
+  const autoWebhook = await getAutoWebhook();
 
-  return <TransferPage balance={balance} transactions={transactions} />;
+  return (
+    <TransferPage
+      balance={balance}
+      transactions={transactions}
+      autoWebhook={autoWebhook}
+    />
+  );
 };
 
 export default Transfer;

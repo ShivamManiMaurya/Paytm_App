@@ -56,10 +56,10 @@ export const AddMoneyForm = () => {
   }, [loading, provider, value]);
 
   return (
-    <div className="w-full bg-white rounded-xl shadow p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-gray-800">Add Money</h2>
+    <div className="w-full bg-white rounded-xl shadow p-4 space-y-4">
+      <h2 className="text-lg font-semibold p-0 text-gray-800">Add Money</h2>
 
-      <div className="space-y-2">
+      <div className="mb-2">
         <label className="text-sm text-gray-600">Amount</label>
         <input
           type="number"

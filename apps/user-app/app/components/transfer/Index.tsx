@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AddMoneyForm } from "./AddMoneyForm";
 import { BalanceSummary } from "./BalanceSummary";
 import { RecentTransactions } from "./RecentTransaction";
@@ -8,19 +8,25 @@ import { useSidebarLoadingStore } from "@repo/store";
 import Skeleton from "./Skeleton";
 import PrimaryLoader from "../common/PrimaryLoader";
 import { tranferShapes } from "../../lib/types/transferShapes";
+import NoteBox from "./NoteBox";
 
 interface IProps {
   balance: tranferShapes.TBalance;
   transactions: tranferShapes.TTxn[];
+  autoWebhook: tranferShapes.TAutoWebhook;
 }
 
-const TransferPage: React.FC<IProps> = ({ balance, transactions }) => {
+const TransferPage: React.FC<IProps> = ({
+  balance,
+  transactions,
+  autoWebhook,
+}) => {
   const { loading } = useSidebarLoadingStore();
 
   return loading ? (
     <PrimaryLoader />
   ) : (
-    <div className="h-[calc(100vh-4rem)] w-full bg-gray-100 p-8">
+    <div className="h-[calc(100vh-5rem)] w-full bg-gray-100 p-2">
       <div className=" flex justify-start items-baseline gap-2 m-2">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
           Transfer
@@ -30,8 +36,9 @@ const TransferPage: React.FC<IProps> = ({ balance, transactions }) => {
 
       <div className="flex gap-6">
         {/* Left: Add Money Form */}
-        <div className="w-1/2">
+        <div className="w-1/2 space-y-2">
           <AddMoneyForm />
+          <NoteBox transactions={transactions} autoWebhookRes={autoWebhook} />
         </div>
 
         {/* Right: Balance + Transactions */}
