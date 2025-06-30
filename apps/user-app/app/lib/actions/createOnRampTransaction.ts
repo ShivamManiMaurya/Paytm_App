@@ -52,6 +52,8 @@ export async function createOnRampTransaction(
         token: uniqueId,
         amount,
         provider: provider.toUpperCase(),
+        status: transaction.status,
+        userId: transaction.userId,
       },
       "Transaction created successfully.",
       201

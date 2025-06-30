@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import PrimaryLoader from "../common/PrimaryLoader";
 import Loader from "../common/Loader";
+import { tranferShapes } from "../../lib/types/transferShapes";
 
 const SUPPORTED_BANKS = [
   {
@@ -18,7 +19,11 @@ const SUPPORTED_BANKS = [
   },
 ];
 
-export const AddMoneyForm = () => {
+interface IProps {
+  autoWebhook: tranferShapes.TAutoWebhook;
+}
+
+export const AddMoneyForm: React.FC<IProps> = ({ autoWebhook }) => {
   const router = useRouter();
 
   const [redirectUrl, setRedirectUrl] = useState(
@@ -38,11 +43,42 @@ export const AddMoneyForm = () => {
   const handleAddMoney = async () => {
     setLoading(true);
     const response = await createOnRampTransaction(provider, value);
-    // window.location.href = redirectUrl || "";
+    window.location.href = redirectUrl || "";
 
     if (response.status >= 200 && response.status <= 210) {
       toast.success(response.message ?? "Transaction successfull.");
 
+      if (autoWebhook.isAutoWebhook) {
+        try {
+          const payload = {
+            token: response?.data?.token,
+            userId: response?.data?.userId,
+            amount: response?.data?.amount,
+            status: response?.data?.status,
+          };
+
+          const res = await fetch("http://localhost:3001/hdfcWebhook", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const result = await res.json();
+
+          if (res.ok) {
+            toast.success(
+              result.message ??
+                "Amount added to your bank account successfully."
+            );
+          } else {
+            toast.error(result.message ?? "Transaction failed.");
+          }
+        } catch (error: any) {
+          toast.error(error ? error || error.message : "Something went wrong.");
+        }
+      }
       router.refresh();
     } else {
       toast.error(response.message + " status: " + response.status);

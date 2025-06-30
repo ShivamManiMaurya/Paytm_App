@@ -37,7 +37,7 @@ const TransferPage: React.FC<IProps> = ({
       <div className="flex gap-6">
         {/* Left: Add Money Form */}
         <div className="w-1/2 space-y-2">
-          <AddMoneyForm />
+          <AddMoneyForm autoWebhook={autoWebhook} />
           <NoteBox transactions={transactions} autoWebhookRes={autoWebhook} />
         </div>
 

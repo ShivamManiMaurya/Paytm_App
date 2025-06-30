@@ -1,10 +1,12 @@
 import express from "express";
 import db from "@repo/db/index";
+import cors from "cors";
 
 import dotenv from "dotenv";
 dotenv.config({ path: "../../packages/db/.env" });
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 enum OnRampStatus {
@@ -21,7 +23,7 @@ app.post("/hdfcWebhook", async (req, res) => {
     status: OnRampStatus;
   } = {
     token: req.body.token,
-    userId: req.body.user_id,
+    userId: req.body.userId,
     amount: req.body.amount,
     status: req.body.status,
   };

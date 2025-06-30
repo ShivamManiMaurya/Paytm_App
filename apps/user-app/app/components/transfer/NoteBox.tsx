@@ -42,15 +42,22 @@ const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
         status: currTxn.status,
       };
 
-      const res = await axiosInstance.post(
-        `${process.env.WEBHOOK_BANK_SERVER_URL}/hdfcWebhook`,
-        payload
-      );
+      const res = await fetch("http://localhost:3001/hdfcWebhook", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-      if (res.status >= 200 && res.status <= 210) {
-        toast.success("Amount added to your bank account successfully.");
+      const result = await res.json(); // <-- Read response body
+
+      if (res.ok) {
+        toast.success(
+          result.message ?? "Amount added to your bank account successfully."
+        );
       } else {
-        toast.error("Transaction failed.");
+        toast.error(result.message ?? "Transaction failed.");
       }
     } catch (error: any) {
       toast.error(error ? error || error.message : "Something went wrong.");
