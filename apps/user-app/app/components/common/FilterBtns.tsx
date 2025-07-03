@@ -28,7 +28,10 @@ const FilterBtns: React.FC<IProps> = ({ setFilter }) => {
         <button
           key={label}
           onClick={() => setFilter(label)}
-          className={`bg-${bg}-600 text-white rounded-xl py-4 px-6 flex items-center justify-center gap-2 shadow hover:bg-${bg}-700 transition text-base sm:text-lg`}>
+          className={`cursor-pointer text-white rounded-xl py-4 px-6 flex items-center justify-center gap-2 
+    shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform 
+    active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50 
+    bg-${bg}-600 hover:bg-${bg}-700`}>
           {icon} {label}
         </button>
       ))}

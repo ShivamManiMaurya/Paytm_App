@@ -5,6 +5,7 @@ import React, { useMemo, useState } from "react";
 import { p2pTransfer } from "../../lib/actions/p2pTransfer";
 import { toast } from "react-toastify";
 import Loader from "../common/PrimaryLoader";
+import MainLoader from "../common/MainLoader";
 
 const P2PTransactions = () => {
   const [amount, setAmount] = useState(0);
@@ -65,7 +66,13 @@ const P2PTransactions = () => {
           onClick={handleSendMoney}
           styles={`w-full ${isDisabled ? "bg-gray-400" : "bg-blue-600"}`}
           disable={isDisabled}>
-          {loading ? <Loader /> : "Send Money"}
+          {loading ? (
+            <div className=" flex items-center justify-center">
+              <MainLoader loadingMsg="Adding money..." />
+            </div>
+          ) : (
+            "Send Money"
+          )}
         </Button>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { authOptions } from "../auth";
 import { ActionResponse, ExtendedSession } from "../types/types";
 import { errorResponse, successResponse } from "../response";
 import prisma from "@repo/db/index";
+import { Some } from "./../helpers/Some";
+import { toMaybe } from "../helpers/Maybe";
 
 export const p2pTransfer = async (
   to: string,
@@ -29,72 +31,88 @@ export const p2pTransfer = async (
       return errorResponse("Recipient User Not Found", 404);
     }
 
+    if (
+      Some.Number(fromUser) === Some.Number(toMaybe(toUser).get("id").unwrap())
+    ) {
+      return errorResponse(
+        "Self-transfers aren't allowed. Please choose a different recipient."
+      );
+    }
+
     let transactionResult: ActionResponse = errorResponse(
       "Unknown error.",
       500
     );
 
-    await prisma.$transaction(async (tx) => {
-      await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(fromUser)} FOR UPDATE`;
+    await prisma.$transaction(
+      async (tx) => {
+        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(fromUser)} FOR UPDATE`;
 
-      const fromBalance = await tx.balance.findUnique({
-        where: {
-          userId: Number(fromUser),
-        },
-      });
-
-      if (!fromBalance || fromBalance.amount < amount) {
-        transactionResult = errorResponse("Insufficient funds.", 402);
-        return;
-      }
-
-      const resFrom = await tx.balance.update({
-        where: {
-          userId: Number(fromUser),
-        },
-        data: {
-          amount: {
-            decrement: amount,
+        const fromBalance = await tx.balance.findUnique({
+          where: {
+            userId: Number(fromUser),
           },
-        },
-      });
+        });
 
-      if (!resFrom.id) {
-        transactionResult = errorResponse("Amount not deducted.", 500);
-        return;
-      }
+        if (!fromBalance || fromBalance.amount < amount) {
+          transactionResult = errorResponse("Insufficient funds.", 402);
+          return;
+        }
 
-      await new Promise((r) => setTimeout(r, 4000));
-
-      const resTo = await tx.balance.update({
-        where: {
-          userId: toUser.id,
-        },
-        data: {
-          amount: {
-            increment: amount,
+        const resFrom = await tx.balance.update({
+          where: {
+            userId: Number(fromUser),
           },
-        },
-      });
+          data: {
+            amount: {
+              decrement: amount,
+            },
+          },
+        });
 
-      if (!resTo.id) {
-        transactionResult = errorResponse("Amount not added to the user.", 500);
-        return;
+        if (!resFrom.id) {
+          transactionResult = errorResponse("Amount not deducted.", 500);
+          return;
+        }
+
+        await new Promise((r) => setTimeout(r, 4000));
+
+        const resTo = await tx.balance.update({
+          where: {
+            userId: toUser.id,
+          },
+          data: {
+            amount: {
+              increment: amount,
+            },
+          },
+        });
+
+        if (!resTo.id) {
+          transactionResult = errorResponse(
+            "Amount not added to the user.",
+            500
+          );
+          return;
+        }
+
+        await tx.p2pTransfer.create({
+          data: {
+            fromUserId: Number(fromUser),
+            toUserIds: toUser.id,
+            amount,
+            timeStamp: new Date(),
+          },
+        });
+
+        transactionResult = successResponse(
+          "Transaction completed successfully."
+        );
+      },
+      {
+        timeout: 10000,
       }
-
-      await tx.p2pTransfer.create({
-        data: {
-          fromUserId: Number(fromUser),
-          toUserIds: toUser.id,
-          amount,
-          timeStamp: new Date(),
-        },
-      });
-
-      transactionResult = successResponse(
-        "Transaction completed successfully."
-      );
-    });
+    );
 
     return transactionResult;
   } catch (error) {

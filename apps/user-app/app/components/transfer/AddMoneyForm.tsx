@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import PrimaryLoader from "../common/PrimaryLoader";
 import Loader from "../common/Loader";
 import { tranferShapes } from "../../lib/types/transferShapes";
+import MainLoader from "../common/MainLoader";
 
 const SUPPORTED_BANKS = [
   {
@@ -124,7 +125,13 @@ export const AddMoneyForm: React.FC<IProps> = ({ autoWebhook }) => {
         onClick={handleAddMoney}
         styles={`w-full ${isDisabled ? "bg-gray-400" : "bg-blue-600"}`}
         disable={isDisabled}>
-        {loading ? <Loader /> : "Add Money"}
+        {loading ? (
+          <div className=" flex items-center justify-center">
+            <MainLoader loadingMsg="Adding money..." />
+          </div>
+        ) : (
+          "Add Money"
+        )}
       </Button>
     </div>
   );

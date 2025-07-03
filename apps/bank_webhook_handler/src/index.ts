@@ -49,14 +49,21 @@ app.post("/hdfcWebhook", async (req, res) => {
 
   try {
     await db.$transaction(async (tx) => {
-      await tx.balance.update({
-        where: {
-          userId: Number(paymentInformation.userId),
-        },
-        data: {
+      const existing = await tx.balance.findUnique({
+        where: { userId: Number(paymentInformation.userId) },
+      });
+
+      await tx.balance.upsert({
+        where: { userId: Number(paymentInformation.userId) },
+        update: {
           amount: {
             increment: Number(paymentInformation.amount),
           },
+        },
+        create: {
+          userId: Number(paymentInformation.userId),
+          amount: Number(paymentInformation.amount),
+          locked: 0,
         },
       });
 
@@ -74,6 +81,7 @@ app.post("/hdfcWebhook", async (req, res) => {
       message: "Captured",
     });
   } catch (error) {
+    console.log("err = ", error);
     res.status(411).json({
       message: "Error while processing webhook.",
     });

@@ -59,45 +59,51 @@ export const RecentTransactions: React.FC<IProps> = ({ transactions }) => {
         Recent Additions
       </h2>
       <div className="flex-1 overflow-y-auto space-y-4 min-h-0">
-        {trxn.map((txn) => {
-          const { bg, text, icon, label } = getStatusStyles(txn.status);
-          const isFailed = txn.status === OnRampStatus.Failure;
+        {trxn.length === 0 ? (
+          <div className="bg-white text-center text-2xl h-full flex justify-center items-center text-gray-400 p-6 overflow-x-auto">
+            No transactions available.
+          </div>
+        ) : (
+          trxn.map((txn) => {
+            const { bg, text, icon, label } = getStatusStyles(txn.status);
+            const isFailed = txn.status === OnRampStatus.Failure;
 
-          return (
-            <div
-              key={txn.id}
-              className="flex justify-between items-center text-sm text-gray-800 px-3 py-2 rounded-md border border-gray-100 hover:bg-gray-50 transition">
-              {/* Left: Info */}
-              <div className="flex flex-col">
-                <span className="font-medium">Received INR</span>
-                <span className="text-xs text-gray-500">
-                  {moment(txn.startTime).format("ddd MMM DD YYYY, hh:mm A")}
-                </span>
-              </div>
-
-              {/* Center: Status badge */}
+            return (
               <div
-                className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${bg} ${text}`}>
-                {icon}
-                <span>{label}</span>
-              </div>
+                key={txn.id}
+                className="flex justify-between items-center text-sm text-gray-800 px-3 py-2 rounded-md border border-gray-100 hover:bg-gray-50 transition">
+                {/* Left: Info */}
+                <div className="flex flex-col">
+                  <span className="font-medium">Received INR</span>
+                  <span className="text-xs text-gray-500">
+                    {moment(txn.startTime).format("ddd MMM DD YYYY, hh:mm A")}
+                  </span>
+                </div>
 
-              {/* Right: Amount */}
-              <div
-                className={`text-base font-semibold ${
-                  txn.status === OnRampStatus.Success
-                    ? "text-green-600"
-                    : txn.status === OnRampStatus.Processing
-                      ? "text-yellow-600"
-                      : "text-red-600"
-                }`}>
-                {txn.status === OnRampStatus.Failure
-                  ? `- Rs ${txn.amount / 100}`
-                  : `+ Rs ${txn.amount / 100}`}
+                {/* Center: Status badge */}
+                <div
+                  className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${bg} ${text}`}>
+                  {icon}
+                  <span>{label}</span>
+                </div>
+
+                {/* Right: Amount */}
+                <div
+                  className={`text-base font-semibold ${
+                    txn.status === OnRampStatus.Success
+                      ? "text-green-600"
+                      : txn.status === OnRampStatus.Processing
+                        ? "text-yellow-600"
+                        : "text-red-600"
+                  }`}>
+                  {txn.status === OnRampStatus.Failure
+                    ? `- Rs ${txn.amount / 100}`
+                    : `+ Rs ${txn.amount / 100}`}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

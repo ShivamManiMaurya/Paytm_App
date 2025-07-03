@@ -6,6 +6,7 @@ import axiosInstance from "../../lib/axios";
 import { tranferShapes } from "../../lib/types/transferShapes";
 import { toast } from "react-toastify";
 import { createAutoWebhook } from "../../lib/actions/createAutoWebhook";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   transactions: tranferShapes.TTxn[];
@@ -13,6 +14,7 @@ interface IProps {
 }
 
 const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
+  const router = useRouter();
   const [autoWebhook, setAutoWebhook] = useState(false);
 
   const currTxn = useMemo(
@@ -42,20 +44,24 @@ const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
         status: currTxn.status,
       };
 
-      const res = await fetch("http://localhost:3001/hdfcWebhook", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_WEBHOOK_BANK_SERVER_URL}/hdfcWebhook`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-      const result = await res.json(); // <-- Read response body
+      const result = await res.json();
 
       if (res.ok) {
         toast.success(
           result.message ?? "Amount added to your bank account successfully."
         );
+        router.refresh();
       } else {
         toast.error(result.message ?? "Transaction failed.");
       }
@@ -71,16 +77,12 @@ const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
 
     const response = await createAutoWebhook(e.target.checked);
 
-    console.log("response = ", response);
-
     if (response.status >= 200 && response.status <= 210) {
       toast.success("Auto webhook updated successfully.");
     } else {
       toast.error(response.message + " status: " + response.status);
     }
   };
-
-  console.log("transactions = ", transactions);
 
   return (
     <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-2 rounded-xl shadow-md space-y-3">

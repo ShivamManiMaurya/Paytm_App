@@ -13,6 +13,7 @@ import { validateField } from "./helpers";
 import { toast } from "react-toastify";
 import Loader from "../common/Loader";
 import Input from "./Input";
+import MainLoader from "../common/MainLoader";
 
 interface IProps {
   isSignup: boolean;
@@ -172,16 +173,17 @@ const AuthPage: React.FC<IProps> = ({ isSignup }) => {
       ))}
       <button
         type="submit"
-        className={`w-full ${isLoading ? "bg-gray-400" : "bg-blue-600"} cursor-pointer ${isLoading ? "text-blue-600" : "text-white"} py-2 rounded hover:opacity-95 flex justify-center items-center`}
+        className={`w-full ${isLoading ? "bg-gray-400" : "bg-blue-600"} cursor-pointer ${isLoading ? "text-gray-200" : "text-white"} py-2 rounded hover:opacity-95 flex justify-center items-center`}
         disabled={isLoading}>
-        {isLoading && <Loader />}
-        {isSignup
-          ? isLoading
-            ? "Signing Up..."
-            : "Sign Up"
-          : isLoading
-            ? "Signing In..."
-            : "Sign In"}
+        {isLoading ? (
+          <MainLoader
+            loadingMsg={isSignup ? "Signing Up..." : "Signing In..."}
+          />
+        ) : isSignup ? (
+          "Sign Up"
+        ) : (
+          "Sign In"
+        )}
       </button>
       <p className="mt-4 text-center text-sm">
         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}

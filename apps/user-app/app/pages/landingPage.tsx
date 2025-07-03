@@ -1,10 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { signOut, signIn, useSession } from "next-auth/react";
+import MainLoader from "../components/common/MainLoader";
 
 export default function LandingPage() {
   const session = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleStart = () => {
+    setIsLoading(true);
+    // Simulate route change delay (you can replace this with a router push if using Next.js router)
+    window.location.href = "/pages/home";
+  };
 
   return (
     <div
@@ -14,9 +22,17 @@ export default function LandingPage() {
       <p className="text-xl max-w-xl">
         Fast, secure, and easy payments. Manage your money anytime, anywhere.
       </p>
+
       {session?.data?.user && (
-        <button onClick={() => (window.location.href = "/pages/home")}>
-          Get Started
+        <button
+          onClick={handleStart}
+          disabled={isLoading}
+          className={`cursor-pointer mt-8 px-8 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 ease-in-out transform ${
+            isLoading
+              ? "bg-blue-300 text-white cursor-not-allowed"
+              : "bg-white text-blue-600 hover:bg-blue-100 hover:shadow-xl active:scale-95"
+          }`}>
+          {isLoading ? <MainLoader /> : "Get Started"}
         </button>
       )}
     </div>
