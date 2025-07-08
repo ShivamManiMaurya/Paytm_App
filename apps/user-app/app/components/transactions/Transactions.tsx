@@ -7,14 +7,6 @@ import FilterBtns from "../common/FilterBtns";
 import TransactionsData from "../common/TransactionsData";
 import filterFn from "../../lib/helpers/filterFn";
 
-type Transaction = {
-  id: number;
-  name: string;
-  type: "send" | "receive" | "add";
-  amount: number;
-  date: string;
-};
-
 interface IProps {
   allTransactions: tranferShapes.allTransactions;
 }

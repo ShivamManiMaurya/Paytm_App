@@ -13,7 +13,7 @@ interface IProps {
   p2pTransactions: tranferShapes.TP2pTxns[];
 }
 
-const homePage: React.FC<IProps> = ({
+const HomePage: React.FC<IProps> = ({
   balance,
   transactions,
   p2pTransactions,
@@ -31,4 +31,4 @@ const homePage: React.FC<IProps> = ({
   );
 };
 
-export default homePage;
+export default HomePage;

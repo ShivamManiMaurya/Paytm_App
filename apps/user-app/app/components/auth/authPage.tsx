@@ -11,7 +11,6 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { validateField } from "./helpers";
 import { toast } from "react-toastify";
-import Loader from "../common/Loader";
 import Input from "./Input";
 import MainLoader from "../common/MainLoader";
 

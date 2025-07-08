@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { AddMoneyForm } from "./AddMoneyForm";
 import { BalanceSummary } from "./BalanceSummary";
 import { RecentTransactions } from "./RecentTransaction";
 import { useSidebarLoadingStore } from "@repo/store";
-import Skeleton from "./Skeleton";
 import PrimaryLoader from "../common/PrimaryLoader";
 import { tranferShapes } from "../../lib/types/transferShapes";
 import NoteBox from "./NoteBox";

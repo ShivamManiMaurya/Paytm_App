@@ -4,7 +4,6 @@ import { Button } from "@repo/ui/button";
 import React, { useMemo, useState } from "react";
 import { p2pTransfer } from "../../lib/actions/p2pTransfer";
 import { toast } from "react-toastify";
-import Loader from "../common/PrimaryLoader";
 import MainLoader from "../common/MainLoader";
 
 const P2PTransactions = () => {

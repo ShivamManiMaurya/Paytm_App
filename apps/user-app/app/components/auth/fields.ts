@@ -52,12 +52,6 @@ export const initialFormState: TFormField = {
 };
 
 export type TPassword = "password" | "confirmPassword";
-// export const initialValues = {
-//   label: "",
-//   name: "",
-//   type: "",
-//   placeholder: "",
-// };
 
 export const signUpFields: Field[] = [
   {

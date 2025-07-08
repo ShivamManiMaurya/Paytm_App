@@ -1,4 +1,4 @@
-import { ReactNode, ComponentType } from "react";
+import { ComponentType } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 import { BiTransfer } from "react-icons/bi";
 import { IoIosTimer } from "react-icons/io";

@@ -41,7 +41,6 @@ export default function Sidebar() {
       <nav className="lg:w-[100%] h-[calc(100vh-7.7vh)] px-6 border-r border-gray-200 bg-white shadow-md flex flex-col items-center py-6 space-y-4">
         <ul>
           {sidebarItems.map((item) => {
-            const Icon = item.icon;
             const path = `/pages/${item.route}`;
             return (
               <li key={item.route}>

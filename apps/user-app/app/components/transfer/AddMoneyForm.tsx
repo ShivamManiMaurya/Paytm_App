@@ -4,8 +4,6 @@ import { Button } from "@repo/ui/button";
 import { createOnRampTransaction } from "../../lib/actions/createOnRampTransaction";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import PrimaryLoader from "../common/PrimaryLoader";
-import Loader from "../common/Loader";
 import { tranferShapes } from "../../lib/types/transferShapes";
 import MainLoader from "../common/MainLoader";
 
@@ -58,13 +56,16 @@ export const AddMoneyForm: React.FC<IProps> = ({ autoWebhook }) => {
             status: response?.data?.status,
           };
 
-          const res = await fetch("http://localhost:3001/hdfcWebhook", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_WEBHOOK_BANK_SERVER_URL}/hdfcWebhook`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
 
           const result = await res.json();
 

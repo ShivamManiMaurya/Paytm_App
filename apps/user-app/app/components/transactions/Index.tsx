@@ -5,7 +5,6 @@ import TransactionsPage from "./Transactions";
 import { useSidebarLoadingStore } from "@repo/store";
 import PrimaryLoader from "../common/PrimaryLoader";
 import { tranferShapes } from "../../lib/types/transferShapes";
-import moment from "moment";
 import getAllTransactions from "../../lib/helpers/getAllTransactions";
 
 interface IProps {

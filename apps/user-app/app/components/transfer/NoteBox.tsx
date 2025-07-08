@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
 import { Zap } from "lucide-react";
-import axiosInstance from "../../lib/axios";
 import { tranferShapes } from "../../lib/types/transferShapes";
 import { toast } from "react-toastify";
 import { createAutoWebhook } from "../../lib/actions/createAutoWebhook";
@@ -13,16 +13,19 @@ interface IProps {
   autoWebhookRes: tranferShapes.TAutoWebhook;
 }
 
+// eslint-disable-next-line react/prop-types
 const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
   const router = useRouter();
   const [autoWebhook, setAutoWebhook] = useState(false);
 
   const currTxn = useMemo(
+    // eslint-disable-next-line react/prop-types
     () => transactions[transactions.length - 1],
     [transactions]
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react/prop-types
     setAutoWebhook(autoWebhookRes.isAutoWebhook ?? false);
   }, [autoWebhookRes]);
 
