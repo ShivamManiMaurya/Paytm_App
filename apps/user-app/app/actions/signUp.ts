@@ -1,5 +1,7 @@
 "use server";
 
+import { BaseUrl } from "../../Enviroment";
+
 export const userSignUp = async (formData: FormData) => {
   const userData = {
     name: formData.get("name") as string,
@@ -9,7 +11,7 @@ export const userSignUp = async (formData: FormData) => {
   };
 
   try {
-    const baseUrl = process.env.NEXTAUTH_URL || "";
+    const baseUrl = BaseUrl() || "";
     const response = await fetch(`${baseUrl}/api/users`, {
       method: "POST",
       headers: {

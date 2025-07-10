@@ -13,6 +13,7 @@ import { validateField } from "./helpers";
 import { toast } from "react-toastify";
 import Input from "./Input";
 import MainLoader from "../common/MainLoader";
+import { BaseUrl } from "../../../Enviroment";
 
 interface IProps {
   isSignup: boolean;
@@ -58,21 +59,18 @@ const AuthPage: React.FC<IProps> = ({ isSignup }) => {
     try {
       if (isSignup) {
         try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name: formData.values.name,
-                email: formData.values.email,
-                number: formData.values.phone,
-                password: formData.values.password,
-              }),
-            }
-          );
+          const response = await fetch(`${BaseUrl()}/api/users`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formData.values.name,
+              email: formData.values.email,
+              number: formData.values.phone,
+              password: formData.values.password,
+            }),
+          });
 
           const data = await response.json();
 
