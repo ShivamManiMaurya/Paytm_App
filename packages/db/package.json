@@ -19,5 +19,11 @@
   },
   "exports": {
     "./*": "./src/*.ts"
+  },
+  "prisma": {
+    "binaryTargets": [
+      "native",
+      "rhel-openssl-3.0.x"
+    ]
   }
 }
