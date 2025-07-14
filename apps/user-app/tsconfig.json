@@ -6,7 +6,12 @@
         "name": "next"
       }
     ],
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "baseUrl": ".",
+    "paths": {
+      "@repo/store": ["../../packages/store/src"],
+      "@repo/ui": ["../../packages/ui/src"]
+    }
   },
   "include": [
     "**/*.ts",
