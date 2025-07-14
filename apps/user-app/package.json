@@ -34,6 +34,7 @@
   "devDependencies": {
     "@locator/babel-jsx": "^0.4.4",
     "@locator/runtime": "^0.4.4",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^6.11.1",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/bcrypt": "^5.0.2",
