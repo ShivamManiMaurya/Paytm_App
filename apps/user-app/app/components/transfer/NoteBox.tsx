@@ -93,11 +93,11 @@ const NoteBox: React.FC<IProps> = ({ transactions, autoWebhookRes }) => {
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p className="text-sm leading-relaxed flex-1">
-          After clicking <strong>Add Money</strong>, you'll be redirected to the
-          bank’s NetBanking page. Since this is a{" "}
+          After clicking <strong>Add Money</strong>, you&apos;ll be redirected
+          to the bank’s NetBanking page. Since this is a{" "}
           <strong>dummy wallet platform</strong>, you don’t need to take any
           action there. When you return, you need to manually trigger the
-          webhook to simulate the bank's response.
+          webhook to simulate the bank&apos;s response.
         </p>
       </div>
       <button

@@ -77,6 +77,7 @@ export const AddMoneyForm: React.FC<IProps> = ({ autoWebhook }) => {
           } else {
             toast.error(result.message ?? "Transaction failed.");
           }
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           toast.error(error ? error || error.message : "Something went wrong.");
         }

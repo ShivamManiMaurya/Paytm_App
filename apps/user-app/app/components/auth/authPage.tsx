@@ -80,6 +80,7 @@ const AuthPage: React.FC<IProps> = ({ isSignup }) => {
 
           toast.success(data.message);
           window.location.href = "/auth/signin";
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           toast.error(error.message);
         }
@@ -97,6 +98,7 @@ const AuthPage: React.FC<IProps> = ({ isSignup }) => {
           toast.error("Invalid creds");
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message || "Something went wrong.");
     } finally {
