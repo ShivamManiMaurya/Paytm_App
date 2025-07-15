@@ -1,15 +1,13 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
+  "extends": "../../packages/typescript-config/react-library.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "NodeNext",
-    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/*": ["../../packages/*/src"]
+    },
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "rootDir": "./src"
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
