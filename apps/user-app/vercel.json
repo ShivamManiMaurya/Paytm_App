@@ -9,10 +9,6 @@
   "build": {
     "env": {
       "PRISMA_GENERATE_DATAPROXY": "false"
-    },
-    "commands": {
-      "preinstall": "cd ../.. && pnpm install --filter user-app...",
-      "build": "cd ../.. && pnpm build --filter=user-app"
     }
   }
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
-echo "--- Setting up environment ---"
-cd ../..
 echo "--- Generating Prisma Client ---"
-pnpm --filter @repo/db exec prisma generate
-echo "--- Building Application ---"
+cd ../..
+pnpm --filter @repo/db exec prisma generate --schema=packages/db/prisma/schema.prisma
+
+echo "--- Building Next.js App ---"
 pnpm --filter user-app run build
