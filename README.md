@@ -74,7 +74,7 @@ Whether you're here to learn from the code, explore modern web dev practices, or
 
 ### 📝 Signup Page
 
-![Signup Page](./public/screens/paytm-01-signup-page.png)
+![Signup Page](https://ik.imagekit.io/clynyzjux/paytm-01-signup-page.png?updatedAt=1753619297911)
 
 - Allows users to register using:
   - Full Name
@@ -89,7 +89,7 @@ Whether you're here to learn from the code, explore modern web dev practices, or
 
 ### 🔑 Login Page
 
-![Login Page](./public/screens/paytm-02-login.png)
+![Login Page](https://ik.imagekit.io/clynyzjux/paytm-02-login.png?updatedAt=1753619297682)
 
 - User logs in with Phone and Password
 - Authenticates using secure backend logic (NextAuth or custom handler)
@@ -100,7 +100,7 @@ Whether you're here to learn from the code, explore modern web dev practices, or
 
 ### 🏠 Post-Login Landing Page
 
-![Landing Page](./public/screens/paytm-03-after-login-landing-page.png)
+![Landing Page](https://ik.imagekit.io/clynyzjux/paytm-03-after-login-landing-page.png?updatedAt=1753619303683)
 
 - Displays welcome message with user's name
 - Shows user-specific data securely
@@ -115,7 +115,7 @@ Whether you're here to learn from the code, explore modern web dev practices, or
 
 Users who are not logged in are shown this public landing page with **Signup** and **Login** options.
 
-![Before Login Landing Page](./public/screenshots/paytm-00-before-sigin-landing-page.png)
+![Before Login Landing Page](https://ik.imagekit.io/clynyzjux/paytm-00-before-sigin-landing-page.png?updatedAt=1753619303570)
 
 ---
 
@@ -131,7 +131,7 @@ Once logged in, users land on a personalized welcome screen with a **"Get Starte
 
 After clicking "Get Started", the app enters a loading state briefly before navigating to the main dashboard.
 
-![Loading State](./public/screenshots/paytm-04-after-login-landing-page-loadingstate.png)
+![Loading State](https://ik.imagekit.io/clynyzjux/paytm-04-after-login-landing-page-loadingstate.png?updatedAt=1753619303443)
 
 ### 🛡️ Tech Used for Auth
 
@@ -159,7 +159,7 @@ Each transaction entry includes:
 
 This gives users a quick, intuitive overview of their account activity and funds.
 
-![User Home Page](./public/screenshots/paytm-05-homepage.png)
+![User Home Page](https://ik.imagekit.io/clynyzjux/paytm-05-homepage.png?updatedAt=1753619297896)
 
 ## 💸 Transfer Page (Add Money to Wallet)
 
@@ -190,7 +190,7 @@ The **Transfer** page allows users to **add money** to their wallet from a selec
   - Includes amount, status, and timestamp
 
 ### 🖼️ Screenshot:
-![Transfer Page](./public/screenshots/paytm-06-transferpage.png)
+![Transfer Page](https://ik.imagekit.io/clynyzjux/paytm-06-transferpage.png?updatedAt=1753619299946)
 
 ## 📄 User Transactions Page
 
@@ -216,7 +216,7 @@ The **Transactions** page displays a comprehensive list of all transactions perf
 
 ### 🖼️ Screenshot:
 
-![Transactions Page](https://dummyimage.com/600x400/cccccc/000000&text=Transactions+Page)
+![Transactions Page](https://ik.imagekit.io/clynyzjux/paytm-08-transactionspage-with-filterselect.png?updatedAt=1753619298448)
 
 ## 💸 P2P Transfer (Person-to-Person Transfer) Page
 
@@ -241,7 +241,7 @@ The **P2P Transfer** page allows users to send money securely to other registere
 
 ### 🖼️ Screenshot:
 
-![P2P Transfer Page](https://dummyimage.com/600x400/cccccc/000000&text=P2P+Transfer+Page)
+![P2P Transfer Page](https://ik.imagekit.io/clynyzjux/paytm-09-p2ptransaction.png?updatedAt=1753619297944)
 
 
 
