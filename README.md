@@ -61,13 +61,21 @@
 
 ## 📖 Introduction
 
-**PAYTM_APP** is a full-stack clone of the popular Indian payments platform, Paytm — built as part of the [100xDevs](https://app.100xdevs.com) program.
+**PAYTM_APP** is a full-stack clone of the popular Indian payments platform.
 
-This project demonstrates a production-grade implementation of a digital payments ecosystem using cutting-edge web technologies. It includes user and merchant flows, secure authentication, real-time state updates, and an extensible architecture — all within a monorepo setup using **Turborepo**.
+This project demonstrates a production-grade implementation of a **digital wallet and peer-to-peer (P2P) payment** system using cutting-edge web technologies like Next.js, Prisma, and Turborepo — all structured within a scalable **monorepo setup**.
 
-The primary objective was to recreate core Paytm features like user login, QR-based transactions, and wallet balance management — while maintaining clean architecture, scalability, and modularity across the stack.
+The app currently allows users to:
 
-Whether you're here to learn from the code, explore modern web dev practices, or see how different tools integrate in a real-world app — you're in the right place!
+- 🔐 Sign up and log in with phone & password
+- 🏦 View and manage wallet balance
+- 💸 Add money to their wallet (with simulated webhook)
+- 🔁 Send money to other registered users
+- 📄 Track all their transactions with filters and summaries
+
+With a focus on clean architecture, modularity, and real-world practices, **PAYTM_APP** is ideal for developers looking to learn modern full-stack development workflows.
+
+Whether you're here to explore the codebase, understand monorepo architecture, or get inspired by real-world payment flows — you're in the right place!
 
 ## UI/UX
 
