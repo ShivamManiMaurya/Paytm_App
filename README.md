@@ -54,7 +54,8 @@
 - [🧰 Tech Stack](#-tech-stack)
 
 - [🔐 Authentication with NextAuth](#-authentication-with-nextauth)
-
+- [🚀 Future Scope](#-future-scope)
+- [🔗 Links](#-links)
 - [👨‍💻 Author](#author)
 
 
@@ -119,13 +120,6 @@ Once logged in, users land on a personalized welcome screen with a **"Get Starte
 After clicking "Get Started", the app enters a loading state briefly before navigating to the main dashboard.
 
 ![Loading State](https://ik.imagekit.io/clynyzjux/paytm-04-after-login-landing-page-loadingstate.png?updatedAt=1753619303443)
-
-### 🛡️ Tech Used for Auth
-
-- [NextAuth.js](https://next-auth.js.org/)
-- [bcryptjs](https://www.npmjs.com/package/bcryptjs) – For hashing passwords
-- [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction) – For custom login/signup logic
-- [Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) – For secure session management
 
 ---
 
@@ -264,10 +258,49 @@ Authentication in this project is handled using [NextAuth.js](https://next-auth.
 - If a user doesn't exist, a new one is automatically created upon login attempt.
 - This flow is powered by the **Credentials Provider** from NextAuth.
 
-### Links
+### 🛡️ Tech Used for Auth
 
--   [Github Solution](https://github.com/ShivamManiMaurya/blog-post-app-frontend)
--   [Live Site](https://mern-blog-post-app-five.vercel.app)
+- [NextAuth.js](https://next-auth.js.org/)
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs) – For hashing passwords
+- [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction) – For custom login/signup logic
+- [Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) – For secure session management
+
+## 🚀 Future Scope
+
+The current version of **PAYTM_APP** focuses on user-centric features like signup, wallet management, P2P transfers, and transaction tracking. Moving forward, the project aims to expand its scope to support **merchants and business payments**.
+
+### 🛒 Merchant Ecosystem (Planned)
+
+The next major phase will introduce a **merchant module**, enabling users to:
+
+- 🔄 **Pay registered merchants** via QR codes or phone numbers
+- 🛍️ View and manage **goods/services** listed by merchants
+- 📦 Merchants can:
+  - Register and manage their store
+  - Create a product/service catalog
+  - Generate dynamic or static QR codes for receiving payments
+- 📊 Merchants will have access to a **dashboard** showing:
+  - Total earnings
+  - Daily/weekly/monthly reports
+  - Transaction breakdowns
+
+### 👨‍💼 Tech & Features for Merchant App (Planned)
+
+- OAuth-based login via **Google** using `NextAuth`
+- Separate merchant schema in the **PostgreSQL + Prisma** setup
+- Role-based access control to distinguish between users and merchants
+- Secure payment flow validations and webhooks
+- Future integration with real UPI/payment APIs for live functionality
+
+---
+
+Stay tuned for updates! The merchant flow will complete the digital payment loop — giving users the ability to not only manage money but also **spend** it in a real-world simulation.
+
+
+## Links
+
+-   [Github Solution](https://github.com/ShivamManiMaurya/Paytm_App)
+-   [Live Site](https://paytm-app-user-app-lovat.vercel.app)
 
 ## Author
 
