@@ -43,20 +43,19 @@
 - [📖 Introduction](#-introduction)
 
 - [🎨 UI/UX](#-uiux)
-  - [Login Page](#login-page)
-  - [Landing Page](#landing-page)
-  - [User Home Page](#user-home-page)
-  - [User Transfer Page](#user-transfer-page)
-  - [User Transactions Page](#User-transactions-page)
-  - [Merchant UI (Future)](#merchant-ui-future)
+  - [📝 Signup Page](#-signup-page)
+  - [🔑 Login Page](#-login-page)
+  - [🏠 Landing Page](#-landing-page-states)
+  - [🏡 User Home Page](#-user-home-page)
+  - [💸 Transfer Page](#-transfer-page-add-money-to-wallet)
+  - [📄 Transactions Page](#-user-transactions-page)
+  - [💸 P2P Transfer Page](#-p2p-transfer-persontoperson-transfer-page)
 
 - [🧰 Tech Stack](#-tech-stack)
-  - Turborepo, Next.js (Frontend & Backend), TypeScript, Node.js  
-  - Tailwind CSS, Express.js, PostgreSQL, Prisma ORM  
-  - Zustand (State Management)
 
 - [🔐 Authentication with NextAuth](#-authentication-with-nextauth)
 
+- [👨‍💻 Author](#author)
 
 
 ## 📖 Introduction
@@ -97,17 +96,6 @@ Whether you're here to learn from the code, explore modern web dev practices, or
 
 ---
 
-### 🏠 Post-Login Landing Page
-
-![Landing Page](https://ik.imagekit.io/clynyzjux/paytm-03-after-login-landing-page.png?updatedAt=1753619303683)
-
-- Displays welcome message with user's name
-- Shows user-specific data securely
-- Offers a **Logout** button that clears the session and redirects to login
-- Protected route: unauthenticated access redirects to login automatically
-
----
-
 ### 🏠 Landing Page States
 
 #### 🟦 Before Signup/Login
@@ -122,7 +110,7 @@ Users who are not logged in are shown this public landing page with **Signup** a
 
 Once logged in, users land on a personalized welcome screen with a **"Get Started"** button to proceed to the main dashboard.
 
-![After Login Landing Page](./public/screenshots/paytm-03-after-login-landing-page.png)
+![After Login Landing Page](https://ik.imagekit.io/clynyzjux/paytm-03-after-login-landing-page.png?updatedAt=1753619303683)
 
 ---
 
